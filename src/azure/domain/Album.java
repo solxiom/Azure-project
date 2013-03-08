@@ -12,70 +12,72 @@ import java.io.Serializable;
  * @author bakharzy
  */
 public class Album extends TableServiceEntity implements Serializable {
-    
+
+    private String uniqueKey;
+    private String title;
+    private String description;
+    private String tags;
+    private String imag_paths;
+    private String mail;
+
     public Album(String uniqueKey) {
         this.rowKey = uniqueKey;
         this.partitionKey = uniqueKey;
     }
 
-    private String uniqueKey;
-    private String Title;
-    private String Description;
-    private String Tags[];
-    private String Images[];
-
     public Album() {
-    }
-
-    public String getUniqueKey() {
-        return uniqueKey;
     }
 
     public void setUniqueKey(String uniqueKey) {
         this.uniqueKey = uniqueKey;
     }
 
- 
-
-    public String getTitle() {
-        return Title;
+    public String getUniqueKey() {
+        return uniqueKey;
     }
 
-    public void setTitle(String Title) {
-        this.Title = Title;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void addTags(String tag) {
+        tags += "," + tag;
     }
 
     public String[] getTags() {
-        return Tags;
+        return tags.split(",");
     }
 
-    public void setTags(String[] Tags) {
-        this.Tags = Tags;
+    public void addImagePath(String path) {
+        imag_paths += "," + path;
     }
 
-    public String[] getImages() {
-        return Images;
+    public String[] getImagePaths() {
+        return imag_paths.split(",");
     }
 
-    public void setImages(String[] Images) {
-        this.Images = Images;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    
+    public String getMail() {
+        return mail;
+    }
 
     @Override
     public String toString() {
         return super.toString();
     }
-
-   
-    
 }
