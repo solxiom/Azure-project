@@ -4,15 +4,21 @@
  */
 package azure.domain;
 
-import java.util.UUID;
+import com.microsoft.windowsazure.services.table.client.*;
+import java.io.Serializable;
 
 /**
  *
  * @author bakharzy
  */
-public class Album {
+public class Album extends TableServiceEntity implements Serializable {
+    
+    public Album(String uniqueKey) {
+        this.rowKey = uniqueKey;
+        this.partitionKey = uniqueKey;
+    }
 
-    private UUID UniqueKey;
+    private String uniqueKey;
     private String Title;
     private String Description;
     private String Tags[];
@@ -21,13 +27,15 @@ public class Album {
     public Album() {
     }
 
-    public UUID getUniqueKey() {
-        return UniqueKey;
+    public String getUniqueKey() {
+        return uniqueKey;
     }
 
-    public void setUniqueKey(UUID UniqueKey) {
-        this.UniqueKey = UniqueKey;
+    public void setUniqueKey(String uniqueKey) {
+        this.uniqueKey = uniqueKey;
     }
+
+ 
 
     public String getTitle() {
         return Title;
@@ -60,6 +68,8 @@ public class Album {
     public void setImages(String[] Images) {
         this.Images = Images;
     }
+
+    
 
     @Override
     public String toString() {
