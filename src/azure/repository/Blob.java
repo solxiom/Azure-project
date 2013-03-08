@@ -32,7 +32,7 @@ public class Blob {
             account = CloudStorageAccount.parse(storageConnectionString);
             serviceClient = account.createCloudBlobClient();
             // Container name must be lower case.
-            container = serviceClient.getContainerReference("Mycontainer");
+            container = serviceClient.getContainerReference("mycontainer");
             container.createIfNotExist();
 
             // Set anonymous access on the container.
@@ -43,7 +43,7 @@ public class Blob {
 
             // Upload an image file.
             blob = container.getBlockBlobReference("test.jpg");
-            File fileReference = new File ("~/photos/test.jpg");
+            File fileReference = new File ("/cs/fs/home/bakharzy/photos/test.jpg");
             blob.upload(new FileInputStream(fileReference), fileReference.length());
 
             // At this point the image is uploaded.
