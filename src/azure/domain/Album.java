@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author bakharzy
  */
-public class Album extends TableServiceEntity implements Serializable {
+public class Album extends TableServiceEntity {
 
     private String uniqueKey;
     private String title;
@@ -53,7 +53,7 @@ public class Album extends TableServiceEntity implements Serializable {
     }
 
     public void addTags(String tag) {
-        tags += "," + tag;
+        tags += tag+ "," ;
     }
 
     public String[] getTags() {
@@ -61,11 +61,12 @@ public class Album extends TableServiceEntity implements Serializable {
     }
 
     public void addImagePath(String path) {
-        imag_paths += "," + path;
+        imag_paths += path +",";
     }
 
     public String[] getImagePaths() {
-        return imag_paths.split(",");
+       return imag_paths.split(",");
+       
     }
 
     public void setMail(String mail) {

@@ -17,8 +17,9 @@ public class DataRepoImpl implements DataRepo {
     
     @Override
     public String savePhoto(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        //this.saveFile();
+        throw new UnsupportedOperationException("Not supported yet.");
+        }
 
     @Override
     public void insertAlbum(Album album) {

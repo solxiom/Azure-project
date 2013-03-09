@@ -42,8 +42,8 @@ public class Blob {
             container.uploadPermissions(containerPermissions);
 
             // Upload an image file.
-            blob = container.getBlockBlobReference("test.jpg");
-            File fileReference = new File ("/cs/fs/home/bakharzy/photos/test.jpg");
+            blob = container.getBlockBlobReference("TEST.jpg");
+            File fileReference = new File ("/cs/fs/home/bakharzy/photos/TEST.jpg");
             blob.upload(new FileInputStream(fileReference), fileReference.length());
 
             // At this point the image is uploaded.

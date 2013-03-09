@@ -43,7 +43,7 @@ public class insertEntry {
             //album.setUniqueKey(uuid);
             album.setTitle("01");
             album.setDescription("01");
-            String photos = "01.jpg";
+            String photos = "04.jpg";
             album.addImagePath(photos);
             String tags = "gfgfd";
             album.addTags(tags);
@@ -51,7 +51,10 @@ public class insertEntry {
             TableOperation insertDesc1 = TableOperation.insert(album);
 
             tableClient.execute("photos", insertDesc1);
-            System.out.println(uuid);
+            album.addImagePath("jagjhgjhg");
+            album.addImagePath("jag");
+            album.addImagePath("jagajdhjklhjklh");
+            System.out.println(album.getImagePaths());
         }
 
         catch (URISyntaxException uriSyntaxException)
