@@ -67,7 +67,7 @@ public class Album extends TableServiceEntity implements Serializable {
     }
 
     public void addImagePath(String path) {
-        this.image_paths += "," + path;
+        this.image_paths += path + ",";
     }
     
     public void setImage_paths(String paths){
