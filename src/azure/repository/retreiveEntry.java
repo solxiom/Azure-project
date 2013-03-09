@@ -35,26 +35,14 @@ public class retreiveEntry {
             System.out.println(specificEntity.desc);
             System.out.println(specificEntity.path);
     
-        }
-
-        catch (URISyntaxException uriSyntaxException)
-        {
-            System.out.print("URISyntaxException encountered: ");
-            System.out.println(uriSyntaxException.getMessage());
-            System.exit(-1);
-        }
+        }    
         catch (StorageException storageExcep)
         {
             System.out.println("StorageException encountered: ");
             System.out.println(storageExcep.getMessage());
             System.exit(-1);
         }
-        catch (InvalidKeyException keyExcep)
-        {
-            System.out.println("InvalidKeyException encountered: ");
-            System.out.println(keyExcep.getMessage());
-            System.exit(-1);
-        }
+       
         
     } 
 }
