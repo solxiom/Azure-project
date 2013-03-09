@@ -13,16 +13,17 @@ import java.io.Serializable;
  */
 public class Album extends TableServiceEntity implements Serializable {
     
+    private String uniqueKey;
+    private String Title;
+    private String Description;
+    private String mail;
+    private String Tags[];
+    private String Images[];
+    
     public Album(String uniqueKey) {
         this.rowKey = uniqueKey;
         this.partitionKey = uniqueKey;
     }
-
-    private String uniqueKey;
-    private String Title;
-    private String Description;
-    private String Tags[];
-    private String Images[];
 
     public Album() {
     }
@@ -35,7 +36,14 @@ public class Album extends TableServiceEntity implements Serializable {
         this.uniqueKey = uniqueKey;
     }
 
- 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+  
 
     public String getTitle() {
         return Title;

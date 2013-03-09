@@ -21,6 +21,12 @@ public class DataRepoImpl implements DataRepo {
     }
 
     @Override
+    public void removePhoto(String path) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+
+    @Override
     public void insertAlbum(Album album) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
