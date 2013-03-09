@@ -4,10 +4,10 @@
  */
 package azure.domain;
 
-import com.microsoft.windowsazure.services.table.TableService;
 import com.microsoft.windowsazure.services.table.client.*;
-import com.sun.org.apache.bcel.internal.generic.TABLESWITCH;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -21,17 +21,18 @@ public class Album extends TableServiceEntity implements Serializable {
     private String tags;
     private String image_paths;
     private String mail;
-  
     
     public Album(String uniqueKey) {
         this.rowKey = uniqueKey;
         this.partitionKey = uniqueKey;
         this.uniqueKey = uniqueKey;
-        image_paths ="";
+        image_paths = "";
     }
 
     public void setUniqueKey(String uniqueKey) {
         this.uniqueKey = uniqueKey;
+        this.rowKey = uniqueKey;
+        this.partitionKey = uniqueKey;
     }
 
     public String getUniqueKey() {
@@ -58,24 +59,24 @@ public class Album extends TableServiceEntity implements Serializable {
         tags += tag + ",";
     }
 
-    public String[] getTags() {
-        return tags.split(",");
+    public String[] getTags() {     
+        return this.getStringAsArray(tags);      
     }
-    
-    public void setTags(String tags){
-        this.tags= tags;
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public void addImagePath(String path) {
         this.image_paths += path + ",";
     }
-    
-    public void setImage_paths(String paths){
+
+    public void setImage_paths(String paths) {
         this.image_paths = paths;
     }
 
     public String[] getImagePaths() {
-        return image_paths.split(",");
+        return this.getStringAsArray(image_paths);
     }
 
     public void setMail(String mail) {
@@ -89,5 +90,18 @@ public class Album extends TableServiceEntity implements Serializable {
     @Override
     public String toString() {
         return super.toString();
+    }
+    
+    private String[] getStringAsArray(String str){     
+        String[] ar = str.split(",");
+        List<String> arx = new LinkedList<String>();
+        for (String s : ar) {
+            
+            if (!(s.equalsIgnoreCase("") || (s.equalsIgnoreCase(" ")))) {
+                arx.add(s);
+            }
+        }
+        
+        return arx.toArray(new String[arx.size()]);         
     }
 }
