@@ -27,6 +27,7 @@ public class Album extends TableServiceEntity implements Serializable {
         this.rowKey = uniqueKey;
         this.partitionKey = uniqueKey;
         this.uniqueKey = uniqueKey;
+        image_paths ="";
     }
 
     public void setUniqueKey(String uniqueKey) {
@@ -54,7 +55,7 @@ public class Album extends TableServiceEntity implements Serializable {
     }
 
     public void addTags(String tag) {
-        tags += "," + tag;
+        tags += tag + ",";
     }
 
     public String[] getTags() {

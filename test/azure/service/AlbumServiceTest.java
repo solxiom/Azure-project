@@ -8,6 +8,7 @@ import azure.domain.Album;
 import azure.repository.DataRepo;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +27,8 @@ import static org.junit.Assert.*;
 public class AlbumServiceTest {
 
     private AlbumService service;
-    private HashMap<String,File> blob;
-    private HashMap<String,Album> table;
+    private HashMap<String, File> blob;
+    private HashMap<String, Album> table;
 
     public AlbumServiceTest() {
     }
@@ -42,12 +43,17 @@ public class AlbumServiceTest {
 
     @Before
     public void setUp() {
-        service = new AlbumServiceImpl(new DataRepoTestImpl());
+        service = new AlbumServiceImpl(new AlbumServiceTest.DataRepoTestImpl());
+        blob = new HashMap<String, File>();
+        table = new HashMap<String, Album>();
+
     }
 
     @After
     public void tearDown() {
         service = null;
+        blob = null;
+        table = null;
     }
 
     /**
@@ -55,7 +61,7 @@ public class AlbumServiceTest {
      */
     @Test
     public void testSaveAlbum_Album() {
-        System.out.println("Test saveAlbum");
+        System.out.print("Test saveAlbum");
         String path = "/img01.jpg,/img02.jpg";
         String email = "soli@gmail.com";
         Album album = getRandomAlbum();
@@ -69,22 +75,27 @@ public class AlbumServiceTest {
         boolean result = instance.exist(album);
         assertEquals(expResult, result);
         assertEquals(album, instance.findAlbumsByMail(email).get(0));
-        assertEquals(1,instance.findAlbumsByMail(email).size());
-        
+        assertEquals(1, instance.findAlbumsByMail(email).size());
+
         String newEmail = "kiri@yahoo.com";
         String newPath = album.getImagePaths()[0];
         album.setMail(newEmail);
         album.setImage_paths(newPath);
         instance.saveAlbum(album);
         if (instance.findAlbumsByMail(email).size() != 0) {
+            System.out.println("....[failed]");
             fail("Failed saveAlbum in update album phase one.");
         }
-        if(instance.findAlbumByKey(album.getUniqueKey()).getImagePaths().length != 1){
-             fail("Failed saveAlbum in update album phase two.");
+        if (instance.findAlbumByKey(album.getUniqueKey()).getImagePaths().length != 1) {
+            System.out.println("....[failed]");
+            fail("Failed saveAlbum in update album phase two.");
         }
-        if(!instance.findAlbumByKey(album.getUniqueKey()).getImagePaths()[0].equals(newPath)){
+        if (!instance.findAlbumByKey(album.getUniqueKey()).getImagePaths()[0].equals(newPath)) {
+            System.out.println("....[failed]");
             fail("Failed saveAlbum in update album phase three.");
         }
+
+        System.out.println("....[OK]");
     }
 
     /**
@@ -92,29 +103,51 @@ public class AlbumServiceTest {
      */
     @Test
     public void testSaveAlbum_Album_List() {
-        System.out.println("saveAlbum");
-        Album album = null;
+        System.out.print("Test saveAlbum_FileList");
+        System.out.println("");
+        Album album = getRandomAlbum();
+        int xi = 0;
+        for (String s : album.getImagePaths()) {
+            xi++;
+            System.out.println(xi + "- " + s);
+        }
         List<File> files = new LinkedList<File>();
-        
-      
-       
-        
-         for(int i = 0; i < 10; i++){
+
+        for (int i = 0; i < 10; i++) {
             files.add(getRandomFile());
         }
-        
+
         AlbumService instance = service;
         instance.saveAlbum(album, files);
-        String pathTobeFound = "disk_1/images/"+files.get(4).getName();
-        for(String s: blob.keySet()){
-            System.out.println(""+ s);
+        String pathTobeFound = "disk_1/images/" + files.get(4).getName();
+        if (!blob.containsKey(pathTobeFound)) {
+            System.out.println("....[failed]");
+            fail("Failed saveAlbum_FileList in phase one. [fileupload testing]");
         }
-        if(!blob.containsKey(pathTobeFound)){
-            System.out.println("search for: "+pathTobeFound);
-           fail("Failed saveAlbum_FileList in phase one. [check for fileupload]"); 
+        System.out.println(" \nblob size:" + blob.size());
+
+        if (album.getImagePaths().length != 10) {
+            fail("Madar jende bazay darmiare");
         }
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+//        List<String> paths = Arrays.asList(album.getImagePaths());
+//       
+//
+//        paths = paths.subList(0, 7);
+//
+//        String pathStr = "";
+//        for (String s : paths) {
+//            pathStr = s + ",";
+//        }
+//        album.setImage_paths(pathStr);
+//
+//        instance.saveAlbum(album);
+//
+//        if (blob.size() != 7) {
+//            System.out.println("....[failed]");
+//            fail("Failed saveAlbum_FileList in phase one. [file delete testing]");
+//        }
+
+        System.out.println("....[OK]");
     }
 
     /**
@@ -122,7 +155,7 @@ public class AlbumServiceTest {
      */
     @Test
     public void testRemoveAlbum() {
-        System.out.println("Test removeAlbum");
+        System.out.print("Test removeAlbum");
         AlbumService instance = service;
         Album toBeRemoved = getRandomAlbum();
 
@@ -132,13 +165,16 @@ public class AlbumServiceTest {
         }
         instance.saveAlbum(toBeRemoved);
         if (!instance.exist(toBeRemoved)) {
+            System.out.println("....[failed]");
             fail("testRemoveAlbum failed: phase one failed");
         }
         instance.removeAlbum(toBeRemoved);
         if (instance.exist(toBeRemoved)) {
+            System.out.println("....[failed]");
             fail("testRemoveAlbum failed: phase two failed");
         }
 
+        System.out.println("....[OK]");
     }
 
     /**
@@ -146,7 +182,7 @@ public class AlbumServiceTest {
      */
     @Test
     public void testFindAlbumByKey() {
-        System.out.println("Test findAlbumByKey");
+        System.out.print("Test findAlbumByKey");
 
         AlbumService instance = service;
         List<Album> als = new LinkedList<Album>();
@@ -164,6 +200,7 @@ public class AlbumServiceTest {
         Album result = instance.findAlbumByKey(key);
         assertEquals(expResult.getUniqueKey(), result.getUniqueKey());
 
+        System.out.println("....[OK]");
     }
 
     /**
@@ -171,7 +208,7 @@ public class AlbumServiceTest {
      */
     @Test
     public void testFindAlbumsByMail() {
-        System.out.println("Test findAlbumsByMail");
+        System.out.print("Test findAlbumsByMail");
         String mail = "solxiom@gmail.com";
         List<Album> als = new LinkedList<Album>();
         AlbumService instance = service;
@@ -193,11 +230,14 @@ public class AlbumServiceTest {
         List<Album> result = instance.findAlbumsByMail(mail);
         for (Album x : result) {
             if (!x.getMail().equals(mail)) {
+                System.out.println("....[failed]");
                 fail("FindAlbumsByMail failed");
             }
         }
 
         assertEquals(10, result.size());
+
+        System.out.println("....[OK]");
 
     }
 
@@ -206,7 +246,7 @@ public class AlbumServiceTest {
      */
     @Test
     public void testListAll() {
-        System.out.println("Test listAll method");
+        System.out.print("Test listAll method");
         AlbumService instance = service;
         List<Album> als = new LinkedList<Album>();
         for (int i = 0; i < 10; i++) {
@@ -215,14 +255,19 @@ public class AlbumServiceTest {
             instance.saveAlbum(a);
         }
 
-        List expResult = als;
-        List result = instance.listAll();
-        for (Album a : als) {
+        List<Album> expResult = als;
+        List<Album> result = instance.listAll();
+
+        for (Album a : expResult) {
+
             if (!result.contains(a)) {
+                System.out.println("....[failed]");
                 fail("List All Failed.");
             }
 
         }
+
+        System.out.println("....[OK]");
 
     }
 
@@ -231,7 +276,7 @@ public class AlbumServiceTest {
      */
     @Test
     public void testExist() {
-        System.out.println("Test exist with saved album");
+        System.out.print("Test exist (with saved album)");
         //test saved album
         Album album = getRandomAlbum();
 
@@ -240,13 +285,15 @@ public class AlbumServiceTest {
         boolean expResult = true;
         boolean result = instance.exist(album);
         assertEquals(expResult, result);
-
+        System.out.println("....[OK]");
         //test unsaved album
-        System.out.println("Test exist with unsaved album");
+        System.out.print("Test exist (with unsaved album)");
         Album album2 = getRandomAlbum();
         boolean expResult2 = false;
         boolean result2 = instance.exist(album2);
         assertEquals(expResult2, result2);
+
+        System.out.println("....[OK]");
     }
 
     private Album getRandomAlbum() {
@@ -259,28 +306,23 @@ public class AlbumServiceTest {
 
         return album;
     }
-    private File getRandomFile(){
-        File file = new File(UUID.randomUUID().toString()+".png");
+
+    private File getRandomFile() {
+        File file = new File(UUID.randomUUID().toString() + ".png");
         return file;
     }
 
     class DataRepoTestImpl implements DataRepo {
 
-     
-
         public DataRepoTestImpl() {
-            blob = new HashMap<String, File>();
-            table = new HashMap<String, Album>();
-           
-
         }
 
         @Override
         public String savePhoto(File file) {
-            String path ;//= "/" + UUID.randomUUID().toString() + ".jpg";
-            path = "disk_1/images/"+ file.getName();
+
+            String path = "disk_1/images/" + file.getName();//generating fake path for a file  
             blob.put(path, file);
-            System.out.println("blob size after adding object: " + blob.size());
+
             return path;
         }
 
@@ -305,7 +347,5 @@ public class AlbumServiceTest {
             List<Album> results = new ArrayList<Album>(table.values());
             return results;
         }
-        
-       
     }
 }
