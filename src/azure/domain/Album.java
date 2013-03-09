@@ -12,11 +12,6 @@ import java.io.Serializable;
  * @author bakharzy
  */
 public class Album extends TableServiceEntity implements Serializable {
-    
-    public Album(String uniqueKey) {
-        this.rowKey = uniqueKey;
-        this.partitionKey = uniqueKey;
-    }
 
     private String uniqueKey;
     private String Title;
@@ -24,7 +19,10 @@ public class Album extends TableServiceEntity implements Serializable {
     private String Tags[];
     private String Images[];
 
-    public Album() {
+    public Album(String uniqueKey) {
+        this.rowKey = uniqueKey;
+        this.partitionKey = uniqueKey;
+        
     }
 
     public String getUniqueKey() {
@@ -34,8 +32,6 @@ public class Album extends TableServiceEntity implements Serializable {
     public void setUniqueKey(String uniqueKey) {
         this.uniqueKey = uniqueKey;
     }
-
- 
 
     public String getTitle() {
         return Title;
@@ -69,13 +65,8 @@ public class Album extends TableServiceEntity implements Serializable {
         this.Images = Images;
     }
 
-    
-
     @Override
     public String toString() {
         return super.toString();
     }
-
-   
-    
 }
