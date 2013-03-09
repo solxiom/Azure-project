@@ -49,23 +49,41 @@ public class DataRepoImpl implements DataRepo {
             CloudTable table = tableClient.getTableReference("albumDescription");
             table.createIfNotExist();          
             UUID uuid = UUID.randomUUID();
-//            Album albumEntry = new Album(uuid.toString());
-//            //album.setUniqueKey(uuid);
-//            albumEntry.setDescription(album.getDescription());
-//            albumEntry.setTitle(album.getTitle());
-//            String[] images = album.getImages();
-//            albumEntry.setImages(images);
-//            String[] tags = album.getTags();
-//            albumEntry.setTags(tags);
+            Album albumEntry = new Album(uuid.toString());
+            albumEntry.setDescription(album.getDescription());
+            albumEntry.setTitle(album.getTitle());
+            albumEntry.setImage_paths(arrayToString(album.getImagePaths()));
+            albumEntry.setTags(arrayToString(album.getTags()));         
+           
             
             TableOperation insertDesc1 = TableOperation.insert(album);
             tableClient.execute("albumDescription", insertDesc1);
         }catch (Exception ex)
         {
-            System.out.print("URISyntaxException encountered: ");
+            System.out.print("Exception encountered: ");
             System.out.println(ex.getMessage());
-            System.exit(-1);
         }
     } 
+    private String arrayToString(String[] ar){
+        String result ="";
+        for(String s: ar){
+            result +=s+",";
+        }
+        return result;
+    }
+    
+    public static void main(String[] args) 
+    {
+        UUID uuid = UUID.randomUUID();
+        Album album1 = new Album(uuid.toString());
+        album1.setDescription("test 1");
+        album1.setTitle("title 1");
+        album1.setImage_paths("dasdasd.jpg, dasdasd.jpg, dasdasdas.jpg");
+        album1.setTags("theme 1");
+        DataRepoImpl dataRepo = new DataRepoImpl();
+        dataRepo.insertAlbum(album1);
+    }
+    
+    
     
 }
