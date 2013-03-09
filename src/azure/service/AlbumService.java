@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface AlbumService {
 
+    public void saveAlbum(Album album);
+    
     public void saveAlbum(Album album, List<File> files);
 
     public void removeAlbum(Album album);
@@ -22,5 +24,7 @@ public interface AlbumService {
 
     public List<Album> findAlbumsByMail(String mail);
 
-    public List<Album> listAllAlbums();
+    public List<Album> listAll();
+    
+    public boolean exist(Album album);
 }
