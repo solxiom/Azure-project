@@ -16,11 +16,14 @@ public interface DataRepo {
     
     public String savePhoto(File file);
     
+    public void removePhoto(String path);
+    
     public void insertAlbum(Album album);
     
     public void removeAlbum(String key);
     
     public List<Album> listAlbums();
+    
       
    
 }
