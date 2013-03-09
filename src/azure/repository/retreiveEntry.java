@@ -14,14 +14,14 @@ import java.security.InvalidKeyException;
  * @author sadeqzad
  */
 public class retreiveEntry {
-    private static storageAccntCred storageAccntCred;
+    private static AccntCred storageAccntCred;
     
     
    public static void main(String[] args) throws StorageException, InvalidKeyException, URISyntaxException 
     {
         try
         {
-            StorageAccountConnector connector = new StorageAccountConnector(storageAccntCred);
+            AccountConnector connector = new AccountConnector(storageAccntCred);
             CloudTableClient tableClient = connector.getAccount().createCloudTableClient();
             
             TableOperation retrieved = 
