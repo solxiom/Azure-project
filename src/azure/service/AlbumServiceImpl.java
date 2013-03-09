@@ -23,20 +23,28 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    public void saveAlbum(Album album) {
+        this.saveAlbum(album, null);
+    }
+
+    @Override
     public void saveAlbum(Album album, List<File> files) {
-            if(this.exist(album)){
-                Album oldAlbum = findAlbumByKey(album.getUniqueKey());
-                for(String p: oldAlbum.getImages()){
-                }
-                this.removeAlbum(album);
-            }
-            
-            repo.insertAlbum(album);
+        if (this.exist(album)) {
+            Album oldAlbum = findAlbumByKey(album.getUniqueKey());
+            removeDeletedPhotos(oldAlbum, album);
+            this.removeAlbum(oldAlbum);
+        }
+        if (files != null) {
+            this.addPhotosToAlbum(album, files);
+        }
+        repo.insertAlbum(album);
     }
 
     @Override
     public void removeAlbum(Album album) {
-        
+        for (String p : album.getImagePaths()) {
+            repo.removePhoto(p);
+        }
         repo.removeAlbum(album.getUniqueKey());
     }
 
@@ -73,9 +81,32 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public boolean exist(Album album) {
 
-        if(this.findAlbumByKey(album.getUniqueKey()) != null)
-        {
+        if (this.findAlbumByKey(album.getUniqueKey()) != null) {
             return true;
+        }
+        return false;
+    }
+
+    private void addPhotosToAlbum(Album album, List<File> files) {
+        for (File f : files) {
+            String path = repo.savePhoto(f);
+            album.addImagePath(path);
+        }
+    }
+
+    private void removeDeletedPhotos(Album old, Album updated) {
+        for (String p : old.getImagePaths()) {
+            if (!imageExistInAlbum(updated, p)) {
+                repo.removePhoto(p);
+            }
+        }
+    }
+
+    private boolean imageExistInAlbum(Album album, String path) {
+        for (String p : album.getImagePaths()) {
+            if (path.equals(path)) {
+                return true;
+            }
         }
         return false;
     }

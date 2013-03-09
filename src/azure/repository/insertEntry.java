@@ -43,10 +43,10 @@ public class insertEntry {
             //album.setUniqueKey(uuid);
             album.setTitle("01");
             album.setDescription("01");
-            String[] photos = {"01.jpg"};
-            album.setImages(photos);
-            String[] tags = {"gfgfd"};
-            album.setTags(tags);
+            String photos = "01.jpg";
+            album.addImagePath(photos);
+            String tags = "gfgfd";
+            album.addTags(tags);
 
             TableOperation insertDesc1 = TableOperation.insert(album);
 

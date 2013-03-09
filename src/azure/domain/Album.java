@@ -12,14 +12,14 @@ import java.io.Serializable;
  * @author bakharzy
  */
 public class Album extends TableServiceEntity implements Serializable {
-    
+
     private String uniqueKey;
-    private String Title;
-    private String Description;
+    private String title;
+    private String description;
+    private String tags;
+    private String imag_paths;
     private String mail;
-    private String Tags[];
-    private String Images[];
-    
+
     public Album(String uniqueKey) {
         this.rowKey = uniqueKey;
         this.partitionKey = uniqueKey;
@@ -28,62 +28,56 @@ public class Album extends TableServiceEntity implements Serializable {
     public Album() {
     }
 
+    public void setUniqueKey(String uniqueKey) {
+        this.uniqueKey = uniqueKey;
+    }
+
     public String getUniqueKey() {
         return uniqueKey;
     }
 
-    public void setUniqueKey(String uniqueKey) {
-        this.uniqueKey = uniqueKey;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void addTags(String tag) {
+        tags += "," + tag;
+    }
+
+    public String[] getTags() {
+        return tags.split(",");
+    }
+
+    public void addImagePath(String path) {
+        imag_paths += "," + path;
+    }
+
+    public String[] getImagePaths() {
+        return imag_paths.split(",");
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getMail() {
         return mail;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-  
-
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String Title) {
-        this.Title = Title;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String Description) {
-        this.Description = Description;
-    }
-
-    public String[] getTags() {
-        return Tags;
-    }
-
-    public void setTags(String[] Tags) {
-        this.Tags = Tags;
-    }
-
-    public String[] getImages() {
-        return Images;
-    }
-
-    public void setImages(String[] Images) {
-        this.Images = Images;
-    }
-
-    
-
     @Override
     public String toString() {
         return super.toString();
     }
-
-   
-    
 }

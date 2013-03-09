@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface AlbumService {
 
+    public void saveAlbum(Album album);
+    
     public void saveAlbum(Album album, List<File> files);
 
     public void removeAlbum(Album album);
