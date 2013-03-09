@@ -26,8 +26,8 @@ import static org.junit.Assert.*;
 public class AlbumServiceTest {
 
     private AlbumService service;
-    private HashMap<String,File> glob_blob;
-    private HashMap<String,Album> glob_table;
+    private HashMap<String,File> blob;
+    private HashMap<String,Album> table;
 
     public AlbumServiceTest() {
     }
@@ -95,16 +95,21 @@ public class AlbumServiceTest {
         System.out.println("saveAlbum");
         Album album = null;
         List<File> files = new LinkedList<File>();
-        for(int i = 0; i < 10; i++){
-             files.add(getRandomFile());
+        
+      
+       
+        
+         for(int i = 0; i < 10; i++){
+            files.add(getRandomFile());
         }
+        
         AlbumService instance = service;
         instance.saveAlbum(album, files);
         String pathTobeFound = "disk_1/images/"+files.get(4).getName();
-        for(String s: glob_blob.keySet()){
+        for(String s: blob.keySet()){
             System.out.println(""+ s);
         }
-        if(!glob_blob.containsKey(pathTobeFound)){
+        if(!blob.containsKey(pathTobeFound)){
             System.out.println("search for: "+pathTobeFound);
            fail("Failed saveAlbum_FileList in phase one. [check for fileupload]"); 
         }
@@ -261,14 +266,12 @@ public class AlbumServiceTest {
 
     class DataRepoTestImpl implements DataRepo {
 
-        HashMap<String, File> blob;
-        HashMap<String, Album> table;
+     
 
         public DataRepoTestImpl() {
             blob = new HashMap<String, File>();
             table = new HashMap<String, Album>();
-            glob_blob = blob;
-            glob_table = table;
+           
 
         }
 
@@ -277,6 +280,7 @@ public class AlbumServiceTest {
             String path ;//= "/" + UUID.randomUUID().toString() + ".jpg";
             path = "disk_1/images/"+ file.getName();
             blob.put(path, file);
+            System.out.println("blob size after adding object: " + blob.size());
             return path;
         }
 
