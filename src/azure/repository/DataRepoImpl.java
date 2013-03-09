@@ -9,7 +9,6 @@ import com.microsoft.windowsazure.services.table.client.CloudTable;
 import com.microsoft.windowsazure.services.table.client.CloudTableClient;
 import com.microsoft.windowsazure.services.table.client.TableOperation;
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
