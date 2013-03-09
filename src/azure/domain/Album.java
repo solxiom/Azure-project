@@ -27,6 +27,7 @@ public class Album extends TableServiceEntity {
         this.rowKey = uniqueKey;
         this.partitionKey = uniqueKey;
         this.uniqueKey = uniqueKey;
+        image_paths ="";
     }
 
     public void setUniqueKey(String uniqueKey) {
@@ -54,7 +55,7 @@ public class Album extends TableServiceEntity {
     }
 
     public void addTags(String tag) {
-        tags += tag+ "," ;
+        tags += tag + ",";
     }
 
     public String[] getTags() {
@@ -66,7 +67,7 @@ public class Album extends TableServiceEntity {
     }
 
     public void addImagePath(String path) {
-        this.image_paths += "," + path;
+        this.image_paths += path + ",";
     }
     
     public void setImage_paths(String paths){

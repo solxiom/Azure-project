@@ -29,11 +29,14 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public void saveAlbum(Album album, List<File> files) {
+        if(album == null){
+            return;
+        }
         if (this.exist(album)) {
             Album oldAlbum = findAlbumByKey(album.getUniqueKey());
             removeDeletedPhotos(oldAlbum, album);
             this.removeAlbum(oldAlbum);
-        }
+        }        
         if (files != null) {
             this.addPhotosToAlbum(album, files);
         }
@@ -42,6 +45,9 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public void removeAlbum(Album album) {
+        if(album == null){
+            return;
+        }
         for (String p : album.getImagePaths()) {
             repo.removePhoto(p);
         }
@@ -50,6 +56,9 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public Album findAlbumByKey(String key) {
+        if(key == null){
+            return null;
+        }
         List<Album> albs = repo.listAlbums();
         for (Album al : albs) {
             if (al.getUniqueKey().equals(key)) {
@@ -62,6 +71,9 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findAlbumsByMail(String mail) {
+        if(mail == null){
+            return null;
+        }
         List<Album> results = new LinkedList<Album>();
         List<Album> albs = repo.listAlbums();
         for (Album al : albs) {
@@ -80,7 +92,9 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public boolean exist(Album album) {
-
+        if(album == null){
+            return false;
+        }
         if (this.findAlbumByKey(album.getUniqueKey()) != null) {
             return true;
         }
