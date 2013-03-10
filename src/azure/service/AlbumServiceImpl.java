@@ -35,7 +35,8 @@ public class AlbumServiceImpl implements AlbumService {
         if (this.exist(album)) {
             Album oldAlbum = findAlbumByKey(album.getUniqueKey());
             removeDeletedPhotos(oldAlbum, album);
-            this.removeAlbum(oldAlbum);
+            repo.removeAlbum(album.getUniqueKey());
+
         }        
         if (files != null) {
             this.addPhotosToAlbum(album, files);
@@ -111,14 +112,14 @@ public class AlbumServiceImpl implements AlbumService {
     private void removeDeletedPhotos(Album old, Album updated) {
         for (String p : old.getImagePaths()) {
             if (!imageExistInAlbum(updated, p)) {
-                repo.removePhoto(p);
+                repo.removePhoto(p); 
             }
         }
     }
 
     private boolean imageExistInAlbum(Album album, String path) {
         for (String p : album.getImagePaths()) {
-            if (path.equals(path)) {
+            if (p.equalsIgnoreCase(path)) {
                 return true;
             }
         }
