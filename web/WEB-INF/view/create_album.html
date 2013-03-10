@@ -9,10 +9,17 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="/photomash/view/css/style.css">
         <script src="//code.jquery.com/jquery-latest.js"></script>  
-       
-        <script type="text/javascript" src="/photomash/view/js/initial.js" > </script> 
+
+        <script type="text/javascript" src="/photomash/view/js/initial.js" ></script> 
+
+        <!-- below scripts and link must be deleted after development. for use in netbeans only -->      
+        <!-- start of development only  links and scripts -->
+        <script type="text/javascript" src="/WEB-INF/view/js/initial.js" ></script>        
+        <link rel="stylesheet" type="text/css" href="/WEB-INF/view/css/style.css" >
+        <!-- end of development only links and scripts -->
     </head>
     <body>
+        <div id="head"></div>
 
         <div id="main">
             <div>Create New Album</div>
@@ -20,7 +27,7 @@ and open the template in the editor.
 
             <form action="/photomash/album/create/submit" method="GET">             
 
-                <h3> Description</h3>
+                <h4> Description</h4>
 
                 <div class ="form_line" > <span class="form_lab" >Title </span> <input type="text" name="title" /> </div>
                 <div  class ="form_line"> <span class="form_lab">Tags </span> <input type="text" name="tags"/> </div>
@@ -28,6 +35,15 @@ and open the template in the editor.
                 <div class ="form_line"> <span class="form_lab">Password: </span> <input type="password" name="pass" /></div>
                 <div class ="form_line">  <span class="form_lab">Retype password: </span> <input type="password" name="pass2" /></div>
 
+                
+
+                <div >
+                    <h4>Choose photos for your album:</h4>
+                    <div id="create_album_thumbs">
+                               
+                    </div>
+                    
+                </div> 
                 <div class="form_line"> <input class="form_submit" type="submit" /></div>
             </form>
         </div>

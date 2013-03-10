@@ -7,10 +7,61 @@
 */
 
 body{
+    overflow-x: hidden;
+   
 }
-#main{
-    width: 900px;
+header{
+    position:relative;
+    width: 110%;
+    height: 100px;
+    background-color: skyblue;
+    margin-top:-10px;
+    margin-left:-10px;
+    
+}
+header div{
+    position:relative;
+    width:900px;
+    padding-top:20px;
     margin:0 auto;
+    font-size: xx-large;
+    font-weight: 700;
+    
+}
+nav{
+     position:relative;
+    width: 1000px;
+    height:40px;
+    margin:0 auto;
+    background-color: black;
+
+    padding-left: 20px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    
+}
+#nav_content{
+    width:900px;
+    margin:0 auto;
+    padding-top: 10px;
+    
+}
+nav a ,nav  a:active,nav  a:after,
+nav a:before, nav  a:checked
+, nav a:default{
+color: white;
+font-weight: bolder;
+text-decoration:none; 
+margin-right:10px;
+}
+nav a:hover{
+    color:yellow;
+}
+
+#main{
+     position:relative;
+    width: 900px;
+    margin:20px auto;
     background-color: white;
 
 }
@@ -31,4 +82,25 @@ form{
 }
 .form_submit{
     float:right;
+}
+.home_photos{
+    postion: relative;
+     margin:0 auto;
+     background-color: silver;
+}
+.home_photos img{
+    width: 200px;
+    height: 200px;
+}
+#create_album_thumbs img{
+    width:100px;
+    height:100px;
+}
+#create_album_thumbs span{
+    display: inline-block; 
+    border:solid 2px black;
+    
+}
+#create_album_thumbs figure{
+   clear:none;
 }

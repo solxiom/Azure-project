@@ -1,11 +1,17 @@
 package azure.control;
 
+import azure.domain.Album;
+import azure.domain.DefaultSet;
 import azure.domain.SampleObject;
 import azure.repository.DataRepo;
 import azure.repository.SimpleDataRepo;
 import azure.service.AlbumService;
 import azure.service.AlbumServiceImpl;
+import java.io.File;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,31 +39,65 @@ public class MainController {
         service = new AlbumServiceImpl(repo);
     }
      
-    
+    @RequestMapping(value = "*")
+    public String not_found() {
+
+        System.out.println("Hello from photomash index");
+        return "not_found.html";
+    }
     @RequestMapping(value = "/")
     public String index() {
 
         System.out.println("Hello from photomash index");
-        return "index";
+        return "index.html";
+    }
+    @RequestMapping(value = "/photo/{album}/{img}")
+    public String getPohot(@PathVariable String album, @PathVariable String img){
+        String path="";
+        if(album.equalsIgnoreCase("1984-default")){              
+            path +="/images/"+img+".jpg";
+            return path;
+        }
+        return "redirect:/";
     }
     @RequestMapping(value = "/album/create")
     public String createAlbum() {       
-        return "create_album";
+        return "create_album.html";
     }
     @RequestMapping(value = "/album/create/submit", method= RequestMethod.GET)
     public String submitNewAlbum(HttpServletRequest request) {
         
         System.out.println("I got the infos!! " );
-        Enumeration enumx = request.getParameterNames();
+        List<File> images = new LinkedList<File>();
         
+        Album album = new Album(UUID.randomUUID().toString());
+        album.setTitle(request.getParameter("title"));
+        album.setMail(request.getParameter("mail"));
+        album.setTags(request.getParameter("tags"));
+        album.setPassword(request.getParameter("pass")); 
+        
+        Enumeration enumx = request.getParameterNames();       
         while(enumx.hasMoreElements()){
-            String attr = (String)enumx.nextElement();
-            System.out.println( attr + " : " + request.getParameter(attr));
+            String attrKey = (String)enumx.nextElement();
+            String attrValue = request.getParameter(attrKey);
+            System.out.println( attrKey + " : " +attrValue );
+            if(attrKey.startsWith("img")){
+                String root = getImagesAbsoluteRoot();
+                File image = new File(root+attrValue+".jpg");
+                images.add(image);
+            }
         }
+        service.saveAlbum(album, images);
         return "redirect:/";
     }
     
-   
+    @RequestMapping(value = "/photo/default/list")
+    public @ResponseBody String[] getDefaultList() {
+
+        DefaultSet defaultSet = new DefaultSet();
+        return defaultSet.getImg_paths();
+
+    }
     
     @RequestMapping(value = "/photo/{img_id}")
     public @ResponseBody SampleObject getShopInJSON(@PathVariable String img_id) {
@@ -70,7 +110,24 @@ public class MainController {
 
         return sample;
 
+
     }
+    private String getImagesRoot(){
+        String rootPath = System.getProperty("user.dir")+"/web/WEB-INF/view/images/";
+         return rootPath;
+    }
+    private String getImagesAbsoluteRoot(){
+        String rootPath = "/home/kavan/Projects/Azure-project/web/WEB-INF/view/images/";
+         return rootPath;
+    }
+    //testMain
+//    public static void main(String[] args){
+//        String path  = System.getProperty("user.dir")+"/web/WEB-INF/view/images/tiger.jpg";
+//        System.out.println(" path:" + path);
+//        File f = new File(path);
+//        System.out.println("file exist: " + f.exists());
+//    }
+   
     
   
 }

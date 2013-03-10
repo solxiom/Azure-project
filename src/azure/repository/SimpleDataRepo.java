@@ -30,7 +30,7 @@ public class SimpleDataRepo implements DataRepo {
         @Override
         public String savePhoto(File file) {
 
-            String path = "/photomash/view/images/"+file.getName();  
+            String path = "/images/"+file.getName();  
             blob.put(path, file);
 
             return path;
@@ -47,9 +47,8 @@ public class SimpleDataRepo implements DataRepo {
         }
 
         @Override
-        public void removeAlbum(String key) {
+        public void removeAlbum(String key) {            
             Album removedAlbum = table.remove(key);
-
         }
 
         @Override
