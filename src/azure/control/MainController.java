@@ -1,6 +1,7 @@
 package azure.control;
 
 import azure.domain.Album;
+import azure.domain.DefaultSet;
 import azure.domain.SampleObject;
 import azure.repository.DataRepo;
 import azure.repository.SimpleDataRepo;
@@ -90,7 +91,13 @@ public class MainController {
         return "redirect:/";
     }
     
-   
+    @RequestMapping(value = "/photo/default/list")
+    public @ResponseBody String[] getDefaultList() {
+
+        DefaultSet defaultSet = new DefaultSet();
+        return defaultSet.getImg_paths();
+
+    }
     
     @RequestMapping(value = "/photo/{img_id}")
     public @ResponseBody SampleObject getShopInJSON(@PathVariable String img_id) {
@@ -102,6 +109,7 @@ public class MainController {
         sample.setInfoArray(new String[]{"info 1", "info 2", "info 3"});
 
         return sample;
+
 
     }
     private String getImagesRoot(){
@@ -119,6 +127,7 @@ public class MainController {
 //        File f = new File(path);
 //        System.out.println("file exist: " + f.exists());
 //    }
+   
     
   
 }
