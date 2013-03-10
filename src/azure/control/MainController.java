@@ -1,10 +1,12 @@
 package azure.control;
 
 import azure.domain.SampleObject;
+import azure.repository.DataRepo;
+import azure.repository.SimpleDataRepo;
+import azure.service.AlbumService;
+import azure.service.AlbumServiceImpl;
 import java.util.Enumeration;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
     
-    
+    private DataRepo repo;
+    private AlbumService service;
+
+    public MainController() {
+        repo = new SimpleDataRepo();
+        service = new AlbumServiceImpl(repo);
+    }
+     
     
     @RequestMapping(value = "/")
     public String index() {
