@@ -1,11 +1,13 @@
 package azure.control;
 
+import azure.domain.Album;
 import azure.domain.SampleObject;
 import azure.repository.DataRepo;
 import azure.repository.SimpleDataRepo;
 import azure.service.AlbumService;
 import azure.service.AlbumServiceImpl;
 import java.util.Enumeration;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,8 +64,14 @@ public class MainController {
     public String submitNewAlbum(HttpServletRequest request) {
         
         System.out.println("I got the infos!! " );
-        Enumeration enumx = request.getParameterNames();
         
+        Album album = new Album(UUID.randomUUID().toString());
+        album.setTitle(request.getParameter("title"));
+        album.setMail(request.getParameter("mail"));
+        album.setTags(request.getParameter("tags"));
+        album.setPassword(request.getParameter("pass"));
+        
+        Enumeration enumx = request.getParameterNames();       
         while(enumx.hasMoreElements()){
             String attr = (String)enumx.nextElement();
             System.out.println( attr + " : " + request.getParameter(attr));

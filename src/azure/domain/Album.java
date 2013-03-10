@@ -21,6 +21,7 @@ public class Album extends TableServiceEntity implements Serializable {
     private String tags;
     private String image_paths;
     private String mail;
+    private String password;
     
     public Album(String uniqueKey) {
         this.rowKey = uniqueKey;
@@ -38,6 +39,15 @@ public class Album extends TableServiceEntity implements Serializable {
     public String getUniqueKey() {
         return uniqueKey;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
 
     public void setTitle(String title) {
         this.title = title;

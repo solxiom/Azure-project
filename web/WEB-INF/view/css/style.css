@@ -96,6 +96,11 @@ form{
     width:100px;
     height:100px;
 }
+#create_thumbs span{
+    display: inline-block; 
+    border:solid 2px black;
+    
+}
 #create_thumbs figure{
    clear:none;
 }
