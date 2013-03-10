@@ -18,7 +18,7 @@ public class StorageAccountConnector {
     public StorageAccountConnector(storageAccntCred accntCred) {       
         String accountName = accntCred.getAccountName();
         String accountKey = accntCred.getAccountKey();
-        String connStr = "DefaultEndpointsProtocol=http;"
+         connStr = "DefaultEndpointsProtocol=http;"
                 + "AccountName=" + accountName + ";"
                 + "AccountKey=" + accountKey;
 
