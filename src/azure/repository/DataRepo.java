@@ -18,7 +18,7 @@ public interface DataRepo {
     
     public void removePhoto(String path);
     
-    public void insertAlbum(/*Album album*/);
+    public void insertAlbum(Album album);
     
     public void removeAlbum(String key);
     

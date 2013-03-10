@@ -11,9 +11,9 @@ import com.microsoft.windowsazure.services.table.client.CloudTable;
 import com.microsoft.windowsazure.services.table.client.CloudTableClient;
 import com.microsoft.windowsazure.services.table.client.TableOperation;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -34,8 +34,8 @@ public class DataRepoImpl implements DataRepo {
     }
 
     @Override
-    public void insertAlbum(/*Album album*/) {
-        this.insertEntry(/*album*/);
+    public void insertAlbum(Album album) {
+        this.insertEntry(album);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DataRepoImpl implements DataRepo {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void insertEntry(/* Album album*/) {
+    private void insertEntry(Album album) {
         try {
             
             AccntCred accntCred = new AccntCred();
@@ -57,21 +57,20 @@ public class DataRepoImpl implements DataRepo {
             CloudStorageAccount account = connector.getAccount();
             CloudTableClient tableClient = account.createCloudTableClient();
 
-            CloudTable table = tableClient.getTableReference("description");
+            CloudTable table = tableClient.getTableReference("album2");
             table.createIfNotExist();
-//            UUID uuid = UUID.randomUUID();
-//            Album albumEntry = new Album(uuid.toString());
-//            albumEntry.setDescription(album.getDescription());
-//            albumEntry.setTitle(album.getTitle());
+            
+//            album.setDescription(album.getDescription());
+//            album.setTitle(album.getTitle());
 //            albumEntry.setImage_paths(arrayToString(album.getImagePaths()));
 //            albumEntry.setTags(arrayToString(album.getTags()));         
 //           
-            descEntity row1 = new descEntity("002");
-            row1.setDesc("blah blah blah 2");
-            row1.setDate("2010-10-002");
-            
-            TableOperation insertDesc1 = TableOperation.insert(row1);
-            tableClient.execute("description", insertDesc1);
+//            descEntity row1 = new descEntity("002");
+//            row1.setDesc("blah blah blah 2");
+//            row1.setDate("2010-10-002");
+//            
+            TableOperation insertDesc1 = TableOperation.insert(album);
+            tableClient.execute("album2", insertDesc1);
         } catch (StorageException storageException) {
             System.out.print("StorageException encountered: ");
             System.out.println(storageException.getMessage());
@@ -104,7 +103,13 @@ public class DataRepoImpl implements DataRepo {
 //        album1.setTitle("title 1");
 //        album1.setImage_paths("dasdasd.jpg, dasdasd.jpg, dasdasdas.jpg");
 //        album1.setTags("theme 1");
+        
         DataRepoImpl dataRepo = new DataRepoImpl();
-        dataRepo.insertAlbum();
+        UUID uuid = UUID.randomUUID();
+        Album sampleAlbum = new Album(uuid.toString());
+        sampleAlbum.setDescription("description 1");
+        sampleAlbum.setTitle("Title 1");
+        dataRepo.insertAlbum(sampleAlbum);
+        System.out.println("Success: The album added to the table album2 ..." + "UUID (row key): " + uuid.toString());
     }
 }
