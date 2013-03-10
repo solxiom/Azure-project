@@ -32,9 +32,7 @@ public class MainController {
         return "index";
     }
     @RequestMapping(value = "/album/create")
-    public String createAlbum() {
-
-        
+    public String createAlbum() {       
         return "create_album";
     }
     @RequestMapping(value = "/album/create/submit", method= RequestMethod.GET)
@@ -64,4 +62,6 @@ public class MainController {
         return sample;
 
     }
+    
+  
 }
