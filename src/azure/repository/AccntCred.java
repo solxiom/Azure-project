@@ -8,9 +8,9 @@ package azure.repository;
  *
  * @author sadeqzad
  */
-public class storageAccntCred {
+public class AccntCred {
 
-    public storageAccntCred() {}
+    public AccntCred() {}
     
     String accountName = "portalvhdsjv13w4pk1gh6j";
     String accountKey = "QhgOPUPNUX2ePs0Wy2Ln+qUDp/AFEMCwEiT7iHfu1KBvSNOj8/AWegyEYreNeIYflpBSMGupO8pTNGcSNUiCmA==";

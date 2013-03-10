@@ -10,15 +10,15 @@ import com.microsoft.windowsazure.services.core.storage.CloudStorageAccount;
  *
  * @author sadeqzad
  */
-public class StorageAccountConnector {
+public class AccountConnector {
 
     private String connStr;
     private CloudStorageAccount account;
 
-    public StorageAccountConnector(storageAccntCred accntCred) {       
+    public AccountConnector(AccntCred accntCred) {       
         String accountName = accntCred.getAccountName();
         String accountKey = accntCred.getAccountKey();
-        String connStr = "DefaultEndpointsProtocol=http;"
+        connStr = "DefaultEndpointsProtocol=http;"
                 + "AccountName=" + accountName + ";"
                 + "AccountKey=" + accountKey;
 
@@ -31,6 +31,7 @@ public class StorageAccountConnector {
             return this.account.parse(connStr);
         } catch (Exception ex) {
         }
+        System.out.println("Problem in creating connection");
         return null;
     }
 }
