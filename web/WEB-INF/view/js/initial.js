@@ -27,7 +27,7 @@ function loadDefaultListThubms() {
                  var last_index =value.split('/').length-1;
                 var imgName = value.split('/')[last_index];
                
-                var checkbox_str = '<input type="checkbox" value="'+imgName+'" name="img"'+index+' />';
+                var checkbox_str = '<input type="checkbox" value="'+imgName+'" name="img'+index+'" />';
                 var span = $('<span>'+checkbox_str+'<img src='+imgLink+' alt='+imgName+' /> </span>');
                 $('#default_thumbs_figure').append(span);
             });
