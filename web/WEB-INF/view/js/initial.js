@@ -8,4 +8,9 @@ window.onload = init;
 
 function init(){
     console.log("Hello World ..." );
+    $('#head').load('/photomash/view/header.html');
+    
+    //last thing
+//    $('body').css("visibility","visible");
+
 }

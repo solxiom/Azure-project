@@ -33,16 +33,30 @@ public class MainController {
         service = new AlbumServiceImpl(repo);
     }
      
-    
+    @RequestMapping(value = "*")
+    public String not_found() {
+
+        System.out.println("Hello from photomash index");
+        return "not_found.html";
+    }
     @RequestMapping(value = "/")
     public String index() {
 
         System.out.println("Hello from photomash index");
-        return "index";
+        return "index.html";
+    }
+    @RequestMapping(value = "/photo/{album}/{img}")
+    public String getPohot(@PathVariable String album, @PathVariable String img){
+        String path="";
+        if(album.equalsIgnoreCase("1984-default")){              
+            path +="/images/"+img+".jpg";
+            return path;
+        }
+        return "redirect:/";
     }
     @RequestMapping(value = "/album/create")
     public String createAlbum() {       
-        return "create_album";
+        return "create_album.html";
     }
     @RequestMapping(value = "/album/create/submit", method= RequestMethod.GET)
     public String submitNewAlbum(HttpServletRequest request) {

@@ -47,9 +47,8 @@ public class SimpleDataRepo implements DataRepo {
         }
 
         @Override
-        public void removeAlbum(String key) {
+        public void removeAlbum(String key) {            
             Album removedAlbum = table.remove(key);
-
         }
 
         @Override
