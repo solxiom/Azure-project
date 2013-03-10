@@ -141,47 +141,23 @@ public class DataRepoImpl implements DataRepo {
         System.out.println("Success: The album added to the table album2 ..." + "UUID (row key): " + uuid.toString());
     }
    
-        private String savePhotoIml(File file) throws StorageException, URISyntaxException, IOException{
-        try{
- 
+        private String savePhotoIml(File file) throws StorageException, URISyntaxException, IOException, FileNotFoundException{
+            if(file== null || !file.exists()){
+                throw new FileNotFoundException("Image file not exists!");
+            }
+            
             createStorageAccount();
             container = serviceClient.getContainerReference("album");
             container.createIfNotExist();
             setContainerPermission();
-        
             String blockBlobReference= "fileName";
-            String filePath= file.getAbsolutePath();
+            //String filePath= file.getAbsolutePath();
             blob = container.getBlockBlobReference(blockBlobReference);
-            File fileReference = new File (filePath);
-            blob.upload(new FileInputStream(fileReference), fileReference.length());
+            //File fileReference = new File (filePath);
+            blob.upload(new FileInputStream(file), file.length());
 
         String savedBlobPath= blob.getUri().toString();
         return savedBlobPath;
-        }
-         catch (FileNotFoundException fileNotFoundException)
-        {
-            System.out.print("FileNotFoundException encountered: ");
-            System.out.println(fileNotFoundException.getMessage());
-            return "";
-        }
-        catch (StorageException storageException)
-        {
-            System.out.print("StorageException encountered: ");
-            System.out.println(storageException.getMessage());
-            return "";
-        }
-        catch (URISyntaxException uriSyntaxException)
-        {
-            System.out.print("URISyntaxException encountered: ");
-            System.out.println(uriSyntaxException.getMessage());
-            return "";
-        }
-        catch (Exception e)
-        {
-            System.out.print("Exception encountered: ");
-            System.out.println(e.getMessage());
-            return "";
-        }
     }
     private void removePhotoImp(String path) throws StorageException, URISyntaxException, IOException{
         

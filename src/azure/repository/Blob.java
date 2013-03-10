@@ -132,6 +132,7 @@ public class Blob {
            // String filmPath= "/cs/fs/home/bakharzy/Desktop/film.mp4";
             blob = container.getBlockBlobReference(blockBlobReference);
             File fileReference = new File (filePath);
+            System.out.println("file exists?" + fileReference.exists());
             blob.upload(new FileInputStream(fileReference), fileReference.length());
             
             for (ListBlobItem blobItem : container.listBlobs()) {
