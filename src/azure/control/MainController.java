@@ -76,7 +76,7 @@ public class MainController {
         album.setMail(request.getParameter("mail"));
         album.setTags(request.getParameter("tags"));
         album.setPassword(request.getParameter("pass")); 
-        album.setDescription(request.getParameter("descrition")); 
+        album.setDescription(request.getParameter("description")); 
         
         Enumeration enumx = request.getParameterNames();       
         while(enumx.hasMoreElements()){
