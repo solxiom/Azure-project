@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author bakharzy
  */
-public class Album extends TableServiceEntity {
+public class Album extends TableServiceEntity implements Serializable{
 
     private String uniqueKey;
     private String title;
@@ -25,16 +25,17 @@ public class Album extends TableServiceEntity {
     
     public Album(String uniqueKey) {
         this.rowKey = uniqueKey;
-        this.partitionKey = uniqueKey;
+        this.partitionKey = "1";
         this.uniqueKey = uniqueKey;
-        image_paths = "";
+        this.image_paths = "";
+        this.tags="";
 
     }
 
     public void setUniqueKey(String uniqueKey) {
         this.uniqueKey = uniqueKey;
         this.rowKey = uniqueKey;
-        this.partitionKey = uniqueKey;
+        this.partitionKey = "1";
     }
 
     public String getUniqueKey() {
