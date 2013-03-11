@@ -122,21 +122,36 @@ public class DataRepoTest {
      */
     @Test
     public void testListAlbums() {
+        try {
         System.out.print("listAlbums: ");
         DataRepo instance = new DataRepoImpl();
-        int expResultSize = 0;
+        List<Album> albumList = new LinkedList<Album>();
+        
+        for (int i=0; i<10; i++) {
+            Album generatedAlbum = getRandomAlbum();
+            
+            albumList.add(generatedAlbum);
+            instance.insertAlbum(generatedAlbum);
+        }
+
         List<Album> result = instance.listAlbums();
-        assertEquals(expResultSize, result.size());
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (albumList.equals(result)) {
+            System.out.println("tested successfully!");
+        } else {
+            System.out.println("failed!");
+        }
+        } catch (Exception e) {
+            System.out.println("listAlbums: test failed!");
+            System.out.println("description: " + e.getClass() + "\t" + e.getMessage() + "\t" + e.getCause());
+        }
     }
 
     private Album getRandomAlbum() {
         Album album = new Album(UUID.randomUUID().toString());
-        album.addImagePath("/khhkjh/kjaghjk.jpg");
-        album.addTags("adsgj,adjhak,akjsdash,asdgas");
-        album.setDescription("dahsfdafjdjha");
-        album.setMail("ajdgjgdjgadahfdsf");
+        album.addImagePath("/khhkjh/123.jpg");
+        album.addTags("adsgj,fd,akjsdash,asdgas");
+        album.setDescription("testtttttt");
+        album.setMail("ajdgjgdjgada@hfdsf.com");
         album.setTitle("saacda");
 
         return album;
