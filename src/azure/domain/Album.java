@@ -28,10 +28,14 @@ public class Album extends TableServiceEntity implements Serializable{
         this.rowKey = uniqueKey;
         this.partitionKey = "1";
         this.uniqueKey = uniqueKey;
+        image_paths ="";
+        tags ="";
 
     }
     
     public Album () {
+        image_paths ="";
+        tags ="";
 
     }
 
