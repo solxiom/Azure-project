@@ -37,6 +37,7 @@ public class MainController {
     public MainController() {
         repo = new SimpleDataRepo();
         service = new AlbumServiceImpl(repo);
+        String bikhod = "dashdjasgdjagdjgsj";
     }
      
     @RequestMapping(value = "*")
