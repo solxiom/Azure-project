@@ -92,6 +92,7 @@ nav a:hover{
 }
 #indexSidebar{
     width:210px;
+    min-width: 210px;
     min-height: 1200px;
     max-height: 1200px;
     overflow-y: hidden;
@@ -118,4 +119,79 @@ nav a:hover{
 }
 #create_album_thumbs figure{
    clear:none;
+}
+#newAlbumsSection{
+    width:650px;
+    margin-left: 210px;
+    padding: 10px;
+   
+}
+.newAlbum {
+    width:100%;
+    margin-left: 8%;
+    height:200px;
+    background-color:silver;
+    border-radius: 17px;
+    text-align: center;
+    padding-bottom: 10px;
+    border: solid 2px black;
+    margin-bottom: 10px;
+}
+.newAlbumHeader{
+    min-width:100%;
+    max-height: 35px;
+    min-height: 35px;
+    display: inline-block;
+    white-space: nowrap;
+}
+.newAlbum h3{
+    float:left;
+    margin-left: 5%;
+    margin-top: 10px;
+
+}
+.newAlbum a{
+    margin-top: 10px;
+    float:right;
+    margin-right: 2%;
+    color: blue;
+    text-decoration: none;
+
+}
+.newAlbum a:hover{
+    color: yellow;
+    cursor: pointer;
+
+}
+.newAlbum  span{
+    display: inline-block;
+    width: 500px;
+    margin:0 auto;
+    white-space: nowrap;
+    
+}
+.newAlbum span img{
+    width:150px;
+    height:150px;
+    margin-right: 10px;
+    border-radius: 17px;
+}
+#album_info_div{
+    margin:0 auto;
+    margin-left: 50px;
+}
+#album_info_div p, #album_info_div span,#album_info_div h3{
+    font-size: x-large;
+    color: brown;
+}
+#album_info_div span{
+ 
+}
+#album_info_div img{
+    width: 200px;
+    height:200px;
+    margin-right: 20px;
+    margin-top: 20px;
+    border: solid 3px black;
+    border-radius: 17px;
 }

@@ -30,7 +30,7 @@ public class SimpleDataRepo implements DataRepo {
         @Override
         public String savePhoto(File file) {
 
-            String path = "/images/"+file.getName();  
+            String path = "/photomash/photo/albums/1984-default/"+file.getName().replace(".jpg", "");  
             blob.put(path, file);
 
             return path;

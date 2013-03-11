@@ -21,7 +21,7 @@ public class DefaultSet{
                 "planet","small-world","tiger"
             };
             for(int i=0; i < img_paths.length; i++){
-                img_paths[i] = "/photomash/photo/1984-default/"+img_paths[i];
+                img_paths[i] = "/photomash/photo/albums/1984-default/"+img_paths[i];
             }
         }
         
