@@ -25,7 +25,7 @@ and open the template in the editor.
             <div>Create New Album</div>
             <hr />
 
-            <form action="/photomash/album/create/submit" method="GET">             
+            <form action="/photomash/album/create/submit" id="create_form"  method="GET">             
 
                 <h4> Description</h4>
 
@@ -34,6 +34,9 @@ and open the template in the editor.
                 <div class ="form_line">  <span class="form_lab">E-Mail </span> <input type="email" name="mail" value="somone@somewhere.com" /> </div>
                 <div class ="form_line"> <span class="form_lab">Password: </span> <input type="password" name="pass" /></div>
                 <div class ="form_line">  <span class="form_lab">Retype password: </span> <input type="password" name="pass2" /></div>
+                 <span class="form_lab">Description: </span>
+                 <br/><br/><textarea name="description" > 
+                    </textarea>
 
                 
 
