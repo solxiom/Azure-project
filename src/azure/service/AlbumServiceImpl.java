@@ -35,8 +35,8 @@ public class AlbumServiceImpl implements AlbumService {
         if (this.exist(album)) {
             Album oldAlbum = findAlbumByKey(album.getUniqueKey());
             removeDeletedPhotos(oldAlbum, album);
-//            this.removeAlbum(oldAlbum);
             repo.removeAlbum(album.getUniqueKey());
+
         }        
         if (files != null) {
             this.addPhotosToAlbum(album, files);

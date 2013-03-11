@@ -325,7 +325,6 @@ public class AlbumServiceTest {
 
             String path = "disk_1/images/" + file.getName();//generating fake path for a file  
             blob.put(path, file);
-
             return path;
         }
 
