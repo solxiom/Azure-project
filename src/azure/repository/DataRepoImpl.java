@@ -206,36 +206,51 @@ public class DataRepoImpl implements DataRepo {
        return tableClient;
    }
     
-//    private String arrayToString(String[] ar) {
-//        String result = "";
-//        for (String s : ar) {
-//            result += s + ",";
-//        }
-//        return result;
-//    }
-
     public static void main(String[] args) {
 
         DataRepoImpl dataRepo = new DataRepoImpl();
-
+        
 // -------------  LIST ALL ALBUMS -------------------------------
-//        Iterable<Album> allAlbums;
+//        List<Album> allAlbums;
 //        allAlbums = dataRepo.listAlbums();
 //        
 //        for (Album album : allAlbums) {
 //            dataRepo.printAlbumInfo(album);
 //        }
 // ---------------------------------------------------------------
-                
+
+        
+//        -----------------------DELETE THE TABLE "LAST" ----------------------------
+//        CloudTableClient tableClient = dataRepo.getTableClient ();
+//        try {
+//        CloudTable table =
+//                tableClient.getTableReference("last");
+//        table.deleteIfExists();
+//            System.out.println("Deleted the table successfully!");
+//        }
+//        catch (URISyntaxException e) 
+//        {
+//            System.out.println("URISyntaxException: " + e.getClass() + e.getMessage());
+//        }
+//        catch (StorageException e) 
+//        {
+//            System.out.println("StorageException: " + e.getClass() + e.getMessage());
+//        }
+//        catch (Exception e)
+//        {
+//            System.out.println("Other type of exception: " + e.getClass() + e.getMessage());
+//        }
+//        ------------------------------------------------------------------------------
+             
 
 //----------------- INSERT AN ALBUM -----------------------------
-        Album randomAlbum = dataRepo.getRandomAlbum();
-  
-        dataRepo.printAlbumInfo(randomAlbum);
-        System.out.println("\n");
-
-        dataRepo.insertAlbum(randomAlbum);
-        
+//        Album randomAlbum = dataRepo.getRandomAlbum();
+//  
+//        dataRepo.printAlbumInfo(randomAlbum);
+//        System.out.println("\n");
+//
+//        dataRepo.insertAlbum(randomAlbum);
+//        
         
 // ------------------------------------------------------------------
         
@@ -244,12 +259,12 @@ public class DataRepoImpl implements DataRepo {
 //        dataRepo.printAlbumInfo(insertedAlbum);
 //        
 // -------------  LIST ALL ALBUMS -------------------------------
-        List<Album> allAlbums;
-        allAlbums = dataRepo.listAlbums();
-        
-        for (Album album : allAlbums) {
-            dataRepo.printAlbumInfo(album);
-        }
+//        List<Album> allAlbums;
+//        allAlbums = dataRepo.listAlbums();
+//        
+//        for (Album album : allAlbums) {
+//            dataRepo.printAlbumInfo(album);
+//        }
 // ---------------------------------------------------------------
         
 // --------------- REMOVE A SPECIFIC ALBUM -------------------------

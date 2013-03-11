@@ -5,8 +5,17 @@
 package azure.repository;
 
 import azure.domain.Album;
+import com.microsoft.windowsazure.services.core.storage.CloudStorageAccount;
+import com.microsoft.windowsazure.services.core.storage.StorageException;
+import com.microsoft.windowsazure.services.table.client.CloudTableClient;
+import com.microsoft.windowsazure.services.table.client.TableConstants;
+import com.microsoft.windowsazure.services.table.client.TableOperation;
+import com.microsoft.windowsazure.services.table.client.TableQuery;
 import java.io.File;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,6 +28,8 @@ import static org.junit.Assert.*;
  * @author sadeqzad
  */
 public class DataRepoTest {
+    
+    
     
     public DataRepoTest() {
     }
@@ -72,12 +83,15 @@ public class DataRepoTest {
      */
     @Test
     public void testInsertAlbum() {
-        System.out.println("insertAlbum");
-        Album album = null;
-        DataRepo instance = new DataRepoImpl();
-        instance.insertAlbum(album);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.print("insertAlbum: ");
+            Album album = getRandomAlbum();
+            DataRepo instance = new DataRepoImpl();
+            instance.insertAlbum(album);
+            System.out.println("tested successfully!");
+        } catch (Exception e) {
+            fail("insertAlbum: test failed!");
+        }
     }
 
     /**
@@ -85,12 +99,22 @@ public class DataRepoTest {
      */
     @Test
     public void testRemoveAlbum() {
-        System.out.println("removeAlbum");
-        String key = "";
+        try {
+        System.out.print("removeAlbum: ");
+        List<Album> allAlbums = listAlbums();
+        
+        String key = allAlbums.get(0).getUniqueKey();
         DataRepo instance = new DataRepoImpl();
         instance.removeAlbum(key);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Album retrievedAlbum = getAlbumInfo(key, "last");
+        Album expResult = null;
+        assertEquals(expResult, retrievedAlbum);
+            System.out.println("tested successful!");
+        }
+        catch (Exception e)
+        {
+        fail("testRemoveAlbum faild!");
+        }
     }
 
     /**
@@ -98,14 +122,110 @@ public class DataRepoTest {
      */
     @Test
     public void testListAlbums() {
-        System.out.println("listAlbums");
+        try {
+        System.out.print("listAlbums: ");
         DataRepo instance = new DataRepoImpl();
-        List expResult = null;
-        List result = instance.listAlbums();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<Album> albumList = new LinkedList<Album>();
+        
+        for (int i=0; i<10; i++) {
+            Album generatedAlbum = getRandomAlbum();
+            
+            albumList.add(generatedAlbum);
+            instance.insertAlbum(generatedAlbum);
+        }
+
+        List<Album> result = instance.listAlbums();
+        if (albumList.equals(result)) {
+            System.out.println("tested successfully!");
+        } else {
+            System.out.println("failed!");
+        }
+        } catch (Exception e) {
+            System.out.println("listAlbums: test failed!");
+            System.out.println("description: " + e.getClass() + "\t" + e.getMessage() + "\t" + e.getCause());
+        }
     }
 
+    private Album getRandomAlbum() {
+        Album album = new Album(UUID.randomUUID().toString());
+        album.addImagePath("/khhkjh/123.jpg");
+        album.addTags("adsgj,fd,akjsdash,asdgas");
+        album.setDescription("testtttttt");
+        album.setMail("ajdgjgdjgada@hfdsf.com");
+        album.setTitle("saacda");
+
+        return album;
+    }
  
+    private List<Album> listAlbums() {
+        try {
+            
+            CloudTableClient tableClient = getTableClient ();
+            // Create a filter condition where the partition key is "Smith".
+            String partitionFilter = TableQuery.generateFilterCondition(
+            TableConstants.PARTITION_KEY, TableQuery.QueryComparisons.EQUAL,"1");
+
+            // Specify a partition query, using "Smith" as the partition key filter.
+            TableQuery<Album> partitionQuery =
+            TableQuery.from("last", Album.class).where(partitionFilter);
+
+            return convertToList(tableClient.execute(partitionQuery));
+            // Loop through the results, displaying information about the entity.
+//            for (Album album : tableClient.execute(partitionQuery)) {
+//            System.out.println(album.getPartitionKey() + " " + album.getRowKey() + 
+//            "\t" + album.getTitle() + "\t" + album.getDescription() + "\t" + album.getMail() + "\t" + album.getPath());
+
+        }
+        catch (Exception e) {
+            System.out.print("Exception encountered: ");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
+    private CloudTableClient getTableClient () {
+       AccntCred accntCred = new AccntCred();
+       AccountConnector connector = new AccountConnector(accntCred);
+       CloudStorageAccount account = connector.getAccount();
+       CloudTableClient tableClient = account.createCloudTableClient();
+       return tableClient;
+   }
+    
+    private List<Album> convertToList(Iterable<Album> col) 
+    {
+        List<Album> albs = new LinkedList<Album>();
+        Iterator<Album> iter = col.iterator();
+        while(iter.hasNext()){
+            Album al = iter.next();
+            albs.add(al);
+        }
+        
+        return albs;
+    }
+    
+    public void printAlbumInfo(Album album) {
+        System.out.println(album.getPartitionKey() + "\t" + album.getRowKey() + 
+            "\t" + album.getTitle() + "\t" + album.getDescription() +
+                "\t" + album.getMail() + "\t" + album.getImage_paths() + "\t" + album.getTags());
+       
+    }
+    
+    private Album getAlbumInfo (String rowKey, String tableName) {
+        try {
+        CloudTableClient tableClient = getTableClient ();
+        Album specificAlbum =
+        tableClient.execute(tableName, TableOperation.retrieve("1", rowKey, Album.class)).getResultAsType();
+
+        return specificAlbum;
+        }
+        catch (StorageException storageException) {
+            System.out.print("StorageException encountered: ");
+            System.out.println(storageException.getMessage());
+            return null;
+        } catch (Exception e) {
+            System.out.print("Exception encountered:\n");
+            System.out.println("Exception class: " + e.getClass() + "\nException message: " + e.getMessage() + "\nStack trace: " + e.getStackTrace());
+            return null;
+        } 
+    }
 }
