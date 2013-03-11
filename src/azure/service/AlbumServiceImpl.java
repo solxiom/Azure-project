@@ -60,7 +60,10 @@ public class AlbumServiceImpl implements AlbumService {
         if(key == null){
             return null;
         }
+        System.out.println("ma inja residim ta koone khar");
         List<Album> albs = repo.listAlbums();
+        
+        
         for (Album al : albs) {
             if (al.getUniqueKey().equals(key)) {
                 return al;

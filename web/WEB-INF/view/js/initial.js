@@ -12,11 +12,33 @@ function init() {
     indexSidebarInit();
     loadDefaultListThubms();
     loadNewAlbumsForIndex();
+//    $('input.form_submit').click(function() {
+////        submitForm();
+//        $('#create_form').submit(function(e) {
+//            e.preventDefault();
+//            //do some verification
+//            console.log("we are here");
+//            $.ajax({
+//                url: '/photomash/album/create/submit/async',
+//                data: $(this).serialize(),
+//                success: function(data)
+//                {
+//                    //callback methods go right here
+//                    alert("success");
+//                }
+//            });
+//        });
+//
+//    });
 //    setNewAlbumLinksAction();
 
     //last thing
 //    $('body').css("visibility","visible");
 
+}
+
+function submitForm() {
+    console.log("Hello async Form");
 }
 
 function indexSidebarInit() {
@@ -147,10 +169,10 @@ function clickAlbum(album_key) {
         div.append(span);
         div.append(p);
 
-        $.each(data.imagePathsAsArray,function(index,path){
-                var img = $('<img src='+path+' alt="kosesher"/>');
-                div.append(img);
-            
+        $.each(data.imagePathsAsArray, function(index, path) {
+            var img = $('<img src=' + path + ' alt="kosesher"/>');
+            div.append(img);
+
         });
         $('#newAlbumsSection').empty();
         $('#newAlbumsSection').append(div);

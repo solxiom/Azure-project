@@ -41,46 +41,41 @@ public class DataRepoImpl implements DataRepo {
     CloudBlobContainer container;
     CloudBlockBlob blob;
     String tableName = "last";
+
     @Override
     public String savePhoto(File file) {
         //this.saveFile();
-        
+
         try {
-        return this.savePhotoIml(file);
-        } 
-        catch (Exception e)
-        {
+            return this.savePhotoImpl(file);
+        } catch (Exception e) {
+            System.out.println("Hello kiram to hello in kiresh: \n" + e.toString());
             return "";
         }
-        }
-        
+    }
 
     @Override
     public void removePhoto(String path) {
-        try{
-        this.removePhotoImp(path);
+        try {
+            this.removePhotoImp(path);
+        } catch (Exception e) {
         }
-        catch (Exception e)
-        {
-        }
-        
+
     }
 
     @Override
     public void insertAlbum(Album album) {
         try {
-        this.insertEntry(album);
-        }
-        catch (StorageException e) {
+            System.out.println(" ta inja koon dadim oomadim, khosh oomadim");
+            this.insertEntry(album);
+        } catch (StorageException e) {
             System.out.print("Exception encountered:\n");
             System.out.println("Exception class: " + e.getClass() + "\nException message: " + e.getMessage() + "\nStack trace: " + e.getStackTrace());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.print("Exception encountered:\n");
             System.out.println("Exception class: " + e.getClass() + "\nException message: " + e.getMessage() + "\nStack trace: " + e.getStackTrace());
         }
     }
-
 
     private void insertEntry(Album album) throws StorageException, Exception {
         CloudTableClient tableClient = getTableClient();
@@ -89,7 +84,7 @@ public class DataRepoImpl implements DataRepo {
         TableOperation insertAlbum1 = TableOperation.insert(album);
         tableClient.execute(this.tableName, insertAlbum1);
     }
-    
+
     public Album getRandomAlbum() {
         UUID uuid = UUID.randomUUID();
         Album sampleAlbum = new Album(uuid.toString());
@@ -100,14 +95,11 @@ public class DataRepoImpl implements DataRepo {
         sampleAlbum.setTags("Natu,re,gh,tyhgh");
         return sampleAlbum;
     }
-    
 
-    
-    
     public Album retrieveAlbum(String rowKey, String tableName) {
         return getAlbumInfo(rowKey, tableName);
     }
-    
+
     @Override
     public void removeAlbum(String rowKey) {
         try {
@@ -122,26 +114,26 @@ public class DataRepoImpl implements DataRepo {
         try {
             CloudTableClient tableClient = getTableClient();
             Album specificAlbum =
-            tableClient.execute(tableName, TableOperation.retrieve("1", rowKey, Album.class)).getResultAsType();
+                    tableClient.execute(tableName, TableOperation.retrieve("1", rowKey, Album.class)).getResultAsType();
             tableClient.execute(tableName, TableOperation.delete(specificAlbum));
         } catch (Exception e) {
             System.out.print("Exception encountered: ");
             System.out.println(e.getMessage());
         }
     }
-    
+
     @Override
     public List<Album> listAlbums() {
         try {
-            
-            CloudTableClient tableClient = getTableClient ();
+
+            CloudTableClient tableClient = getTableClient();
             // Create a filter condition where the partition key is "Smith".
             String partitionFilter = TableQuery.generateFilterCondition(
-            TableConstants.PARTITION_KEY, QueryComparisons.EQUAL,"1");
+                    TableConstants.PARTITION_KEY, QueryComparisons.EQUAL, "1");
 
             // Specify a partition query, using "Smith" as the partition key filter.
             TableQuery<Album> partitionQuery =
-            TableQuery.from(this.tableName, Album.class).where(partitionFilter);
+                    TableQuery.from(this.tableName, Album.class).where(partitionFilter);
 
             return convertToList(tableClient.execute(partitionQuery));
             // Loop through the results, displaying information about the entity.
@@ -149,38 +141,40 @@ public class DataRepoImpl implements DataRepo {
 //            System.out.println(album.getPartitionKey() + " " + album.getRowKey() + 
 //            "\t" + album.getTitle() + "\t" + album.getDescription() + "\t" + album.getMail() + "\t" + album.getPath());
 
-        }
-        catch (Exception e) {
-            System.out.print("Exception encountered: ");
+        } catch (Exception e) {
+            System.out.print("Exception encountered: ma khoobim shoma chetor? ");
             System.out.println(e.getMessage());
             return null;
         }
     }
-    
-    private List<Album> convertToList(Iterable<Album> col) 
-    {
+
+    private List<Album> convertToList(Iterable col) {
+
         List<Album> albs = new LinkedList<Album>();
-        Iterator<Album> iter = col.iterator();
-        while(iter.hasNext()){
-            Album al = iter.next();
-            albs.add(al);
+        System.out.println(" chi mig haaaaa?");
+        Iterator iter = col.iterator();
+        System.out.println(" chi mig moooooo?");
+        try {
+            while (iter.hasNext()) {
+
+                Album al = (Album) iter.next();
+                albs.add(al);
+            }
+        } catch (Exception ex) {
+            System.out.println(" goh gije darim: " + ex.toString());
         }
-        
+
         return albs;
     }
-    
-    
 
-    
-    private Album getAlbumInfo (String rowKey, String tableName) {
+    private Album getAlbumInfo(String rowKey, String tableName) {
         try {
-        CloudTableClient tableClient = getTableClient ();
-        Album specificAlbum =
-        tableClient.execute(tableName, TableOperation.retrieve("1", rowKey, Album.class)).getResultAsType();
+            CloudTableClient tableClient = getTableClient();
+            Album specificAlbum =
+                    tableClient.execute(tableName, TableOperation.retrieve("1", rowKey, Album.class)).getResultAsType();
 
-        return specificAlbum;
-        }
-        catch (StorageException storageException) {
+            return specificAlbum;
+        } catch (StorageException storageException) {
             System.out.print("StorageException encountered: ");
             System.out.println(storageException.getMessage());
             return null;
@@ -188,167 +182,170 @@ public class DataRepoImpl implements DataRepo {
             System.out.print("Exception encountered:\n");
             System.out.println("Exception class: " + e.getClass() + "\nException message: " + e.getMessage() + "\nStack trace: " + e.getStackTrace());
             return null;
-        } 
+        }
     }
-    
+
     public void printAlbumInfo(Album album) {
-        System.out.println(album.getPartitionKey() + "\t" + album.getRowKey() + 
-            "\t" + album.getTitle() + "\t" + album.getDescription() +
-                "\t" + album.getMail() + "\t" + album.getImage_paths() + "\t" + album.getTags());
-       
+        System.out.println(album.getPartitionKey() + "\t" + album.getRowKey()
+                + "\t" + album.getTitle() + "\t" + album.getDescription()
+                + "\t" + album.getMail() + "\t" + album.getImage_paths() + "\t" + album.getTags());
+
     }
-    
-   private CloudTableClient getTableClient () {
-       AccntCred accntCred = new AccntCred();
-       AccountConnector connector = new AccountConnector(accntCred);
-       CloudStorageAccount account = connector.getAccount();
-       CloudTableClient tableClient = account.createCloudTableClient();
-       return tableClient;
-   }
-    
-    public static void main(String[] args) {
 
-        DataRepoImpl dataRepo = new DataRepoImpl();
-        
-// -------------  LIST ALL ALBUMS -------------------------------
-//        List<Album> allAlbums;
-//        allAlbums = dataRepo.listAlbums();
-//        
-//        for (Album album : allAlbums) {
-//            dataRepo.printAlbumInfo(album);
-//        }
-// ---------------------------------------------------------------
+    private CloudTableClient getTableClient() {
+        AccntCred accntCred = new AccntCred();
+        AccountConnector connector = new AccountConnector(accntCred);
+        CloudStorageAccount account = connector.getAccount();
+        CloudTableClient tableClient = account.createCloudTableClient();
+        return tableClient;
+    }
 
-        
-//        -----------------------DELETE THE TABLE "LAST" ----------------------------
-//        CloudTableClient tableClient = dataRepo.getTableClient ();
-//        try {
-//        CloudTable table =
-//                tableClient.getTableReference("last");
-//        table.deleteIfExists();
-//            System.out.println("Deleted the table successfully!");
-//        }
-//        catch (URISyntaxException e) 
-//        {
-//            System.out.println("URISyntaxException: " + e.getClass() + e.getMessage());
-//        }
-//        catch (StorageException e) 
-//        {
-//            System.out.println("StorageException: " + e.getClass() + e.getMessage());
-//        }
-//        catch (Exception e)
-//        {
-//            System.out.println("Other type of exception: " + e.getClass() + e.getMessage());
-//        }
-//        ------------------------------------------------------------------------------
-             
-
-//----------------- INSERT AN ALBUM -----------------------------
-//        Album randomAlbum = dataRepo.getRandomAlbum();
-//  
-//        dataRepo.printAlbumInfo(randomAlbum);
-//        System.out.println("\n");
+//    public static void main(String[] args) {
 //
-//        dataRepo.insertAlbum(randomAlbum);
+//        DataRepoImpl dataRepo = new DataRepoImpl();
 //        
-        
-// ------------------------------------------------------------------
-        
-//        Album insertedAlbum = dataRepo.retrieveAlbum(randomAlbum.getUniqueKey(), this.tableName);
-//        System.out.println("\n");
-//        dataRepo.printAlbumInfo(insertedAlbum);
+//// -------------  LIST ALL ALBUMS -------------------------------
+////        List<Album> allAlbums;
+////        allAlbums = dataRepo.listAlbums();
+////        
+////        for (Album album : allAlbums) {
+////            dataRepo.printAlbumInfo(album);
+////        }
+//// ---------------------------------------------------------------
+//
 //        
-// -------------  LIST ALL ALBUMS -------------------------------
-//        List<Album> allAlbums;
-//        allAlbums = dataRepo.listAlbums();
+////        -----------------------DELETE THE TABLE "LAST" ----------------------------
+////        CloudTableClient tableClient = dataRepo.getTableClient ();
+////        try {
+////        CloudTable table =
+////                tableClient.getTableReference("last");
+////        table.deleteIfExists();
+////            System.out.println("Deleted the table successfully!");
+////        }
+////        catch (URISyntaxException e) 
+////        {
+////            System.out.println("URISyntaxException: " + e.getClass() + e.getMessage());
+////        }
+////        catch (StorageException e) 
+////        {
+////            System.out.println("StorageException: " + e.getClass() + e.getMessage());
+////        }
+////        catch (Exception e)
+////        {
+////            System.out.println("Other type of exception: " + e.getClass() + e.getMessage());
+////        }
+////        ------------------------------------------------------------------------------
+//             
+//
+////----------------- INSERT AN ALBUM -----------------------------
+////        Album randomAlbum = dataRepo.getRandomAlbum();
+////  
+////        dataRepo.printAlbumInfo(randomAlbum);
+////        System.out.println("\n");
+////
+////        dataRepo.insertAlbum(randomAlbum);
+////        
 //        
-//        for (Album album : allAlbums) {
-//            dataRepo.printAlbumInfo(album);
-//        }
-// ---------------------------------------------------------------
-        
-// --------------- REMOVE A SPECIFIC ALBUM -------------------------
-//        try {
-//        dataRepo.removeAlbum("19025e81-b140-4931-872a-f5ba6eb45fef");
-//        dataRepo.removeAlbum("1e0e3a49-84a8-4976-baeb-285f6a2b166e");
-//        dataRepo.removeAlbum("8fa93b0f-109a-4a4c-b117-d8db5521ca29");
-//        dataRepo.removeAlbum("8e423497-ba16-401b-897c-e9ae8b1b69f2");
-//        } catch (Exception e) {
-//            System.out.print("Exception encountered:\n");
-//            System.out.println("Exception class: " + e.getClass() + "\nException message: " + e.getMessage() + "\nStack trace: " + e.getStackTrace());
-//        }
+//// ------------------------------------------------------------------
 //        
-//        System.out.println("Album removed successfully. \n");
-// ------------------------------------------------------------------
-        
-//        allAlbums = dataRepo.listAlbums();
+////        Album insertedAlbum = dataRepo.retrieveAlbum(randomAlbum.getUniqueKey(), this.tableName);
+////        System.out.println("\n");
+////        dataRepo.printAlbumInfo(insertedAlbum);
+////        
+//// -------------  LIST ALL ALBUMS -------------------------------
+////        List<Album> allAlbums;
+////        allAlbums = dataRepo.listAlbums();
+////        
+////        for (Album album : allAlbums) {
+////            dataRepo.printAlbumInfo(album);
+////        }
+//// ---------------------------------------------------------------
 //        
-//        for (Album album : allAlbums) {
-//            dataRepo.printAlbumInfo(album);
-//        }
-        
-        
-//-------------------- RETRIEVE A SPECIFIC ALBUM --------------------
-        
-//        Album retrievedAlbum = dataRepo.retrieveAlbum("656b138d-f0db-4c2f-9c60-4bbeb6706bdc", this.tableName);
-//        dataRepo.printAlbumInfo(retrievedAlbum);
-// ------------------------------------------------------------------
-        
-// ---------------- LIST ALL ALBUMS -------------------------------
-//        allAlbums = dataRepo.listAlbums();
-//        for (Album album : allAlbums) {
-//            dataRepo.printAlbumInfo(album);
-//        }
-// ------------------------------------------------------------------
-        
-        
-        
-    }
-   
-        private String savePhotoIml(File file) throws StorageException, URISyntaxException, IOException, FileNotFoundException{
-            if(file== null || !file.exists()){
-                throw new FileNotFoundException("Image file not exists!");
-            }
-            
-            createStorageAccount();
-            container = serviceClient.getContainerReference("album");
-            container.createIfNotExist();
-            setContainerPermission();
-            String blockBlobReference= "fileName";
-            //String filePath= file.getAbsolutePath();
-            blob = container.getBlockBlobReference(blockBlobReference);
-            //File fileReference = new File (filePath);
-            blob.upload(new FileInputStream(file), file.length());
+//// --------------- REMOVE A SPECIFIC ALBUM -------------------------
+////        try {
+////        dataRepo.removeAlbum("19025e81-b140-4931-872a-f5ba6eb45fef");
+////        dataRepo.removeAlbum("1e0e3a49-84a8-4976-baeb-285f6a2b166e");
+////        dataRepo.removeAlbum("8fa93b0f-109a-4a4c-b117-d8db5521ca29");
+////        dataRepo.removeAlbum("8e423497-ba16-401b-897c-e9ae8b1b69f2");
+////        } catch (Exception e) {
+////            System.out.print("Exception encountered:\n");
+////            System.out.println("Exception class: " + e.getClass() + "\nException message: " + e.getMessage() + "\nStack trace: " + e.getStackTrace());
+////        }
+////        
+////        System.out.println("Album removed successfully. \n");
+//// ------------------------------------------------------------------
+//        
+////        allAlbums = dataRepo.listAlbums();
+////        
+////        for (Album album : allAlbums) {
+////            dataRepo.printAlbumInfo(album);
+////        }
+//        
+//        
+////-------------------- RETRIEVE A SPECIFIC ALBUM --------------------
+//        
+////        Album retrievedAlbum = dataRepo.retrieveAlbum("656b138d-f0db-4c2f-9c60-4bbeb6706bdc", this.tableName);
+////        dataRepo.printAlbumInfo(retrievedAlbum);
+//// ------------------------------------------------------------------
+//        
+//// ---------------- LIST ALL ALBUMS -------------------------------
+////        allAlbums = dataRepo.listAlbums();
+////        for (Album album : allAlbums) {
+////            dataRepo.printAlbumInfo(album);
+////        }
+//// ------------------------------------------------------------------
+//        
+//        
+//        
+//    }
+    private String savePhotoImpl(File file) throws StorageException, URISyntaxException, IOException, FileNotFoundException {
+        if (file == null || !file.exists()) {
+            throw new FileNotFoundException("Image file not exists!");
+        }
 
-        String savedBlobPath= blob.getUri().toString();
+        createStorageAccount();
+        container = serviceClient.getContainerReference("album");
+        container.createIfNotExist();
+        setContainerPermission();       
+        String blockBlobReference = file.getName();
+        //String filePath= file.getAbsolutePath();
+        blob = container.getBlockBlobReference(blockBlobReference);
+        //File fileReference = new File (filePath);
+        blob.upload(new FileInputStream(file), file.length());
+
+        String savedBlobPath = blob.getUri().toString();
         return savedBlobPath;
     }
-    private void removePhotoImp(String path) throws StorageException, URISyntaxException, IOException{
-        
-            splitter(path);
-            createStorageAccount();
-            container = serviceClient.getContainerReference(containerName);
-            blob = container.getBlockBlobReference(blobName);
-            blob.delete();
+
+    private void removePhotoImp(String path) throws StorageException, URISyntaxException, IOException {
+
+        splitter(path);
+        createStorageAccount();
+        container = serviceClient.getContainerReference(containerName);
+        blob = container.getBlockBlobReference(blobName);
+        blob.delete();
     }
-    private void splitter(String path){
-        
-            String[] temp = path.split(".net/");
-            String[] temp2 = temp[1].split("/");
-            containerName = temp2[0];
-            blobName = temp2[1];     
+
+    private void splitter(String path) {
+
+        String[] temp = path.split(".net/");
+        String[] temp2 = temp[1].split("/");
+        containerName = temp2[0];
+        blobName = temp2[1];
     }
-    private void createStorageAccount(){
-        
-            AccntCred accntCred = new AccntCred();
-            AccountConnector connector = new AccountConnector(accntCred);
-            CloudStorageAccount account = connector.getAccount();
-            serviceClient = account.createCloudBlobClient();
-            
+
+    private void createStorageAccount() {
+
+        AccntCred accntCred = new AccntCred();
+        AccountConnector connector = new AccountConnector(accntCred);
+        CloudStorageAccount account = connector.getAccount();
+        serviceClient = account.createCloudBlobClient();
+
     }
-    private void setContainerPermission()throws StorageException{
-            BlobContainerPermissions containerPermissions = new BlobContainerPermissions();
-            containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
-            container.uploadPermissions(containerPermissions);
+
+    private void setContainerPermission() throws StorageException {
+        BlobContainerPermissions containerPermissions = new BlobContainerPermissions();
+        containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
+        container.uploadPermissions(containerPermissions);
     }
 }
