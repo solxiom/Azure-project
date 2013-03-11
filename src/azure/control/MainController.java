@@ -75,6 +75,7 @@ public class MainController {
         album.setMail(request.getParameter("mail"));
         album.setTags(request.getParameter("tags"));
         album.setPassword(request.getParameter("pass")); 
+        album.setDescription(request.getParameter("descrition")); 
         
         Enumeration enumx = request.getParameterNames();       
         while(enumx.hasMoreElements()){
@@ -96,6 +97,12 @@ public class MainController {
 
         DefaultSet defaultSet = new DefaultSet();
         return defaultSet.getImg_paths();
+
+    }
+    @RequestMapping(value = "/photo/albums/list")
+    public @ResponseBody List<Album> listAlbums() {
+      
+        return service.listAll();
 
     }
     

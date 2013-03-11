@@ -65,9 +65,16 @@ nav a:hover{
     background-color: white;
 
 }
-form{
+#create_form{
     width:500px;
     margin:0 auto;
+   padding-bottom: 50px;
+}
+#create_form textarea{
+    width:70%;
+    height:70px;
+    margin:0 auto;
+    resize: none;
 }
 .form_lab{
     display: inline-block;
@@ -83,14 +90,22 @@ form{
 .form_submit{
     float:right;
 }
-.home_photos{
+#indexSidebar{
+    width:210px;
+    min-height: 1200px;
+    max-height: 1200px;
+    overflow-y: hidden;
     postion: relative;
      margin:0 auto;
-     background-color: silver;
+     float:left;
+     text-align: center;
+     
 }
-.home_photos img{
+#indexSidebar img{
     width: 200px;
-    height: 200px;
+    height: 200px;    
+    border-radius: 20px;
+    margin:5px auto;
 }
 #create_album_thumbs img{
     width:100px;
