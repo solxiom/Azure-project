@@ -49,7 +49,7 @@ public class AlbumServiceImpl implements AlbumService {
         if(album == null){
             return;
         }
-        for (String p : album.getImagePaths()) {
+        for (String p : album.getImage_paths().split(",")) {
             repo.removePhoto(p);
         }
         repo.removeAlbum(album.getUniqueKey());
@@ -110,7 +110,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     private void removeDeletedPhotos(Album old, Album updated) {
-        for (String p : old.getImagePaths()) {
+        for (String p : old.getImage_paths().split(",")) {
             if (!imageExistInAlbum(updated, p)) {
                 repo.removePhoto(p); 
             }
@@ -118,7 +118,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     private boolean imageExistInAlbum(Album album, String path) {
-        for (String p : album.getImagePaths()) {
+        for (String p : album.getImage_paths().split(",")) {
             if (p.equalsIgnoreCase(path)) {
                 return true;
             }

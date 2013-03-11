@@ -78,7 +78,7 @@ public class AlbumServiceTest {
         assertEquals(1, instance.findAlbumsByMail(email).size());
 
         String newEmail = "kiri@yahoo.com";
-        String newPath = album.getImagePaths()[0];
+        String newPath = album.getImage_paths().split(",")[0];
         album.setMail(newEmail);
         album.setImage_paths(newPath);
         instance.saveAlbum(album);
@@ -86,11 +86,11 @@ public class AlbumServiceTest {
             System.out.println("....[failed]");
             fail("Failed saveAlbum in update album phase one.");
         }
-        if (instance.findAlbumByKey(album.getUniqueKey()).getImagePaths().length != 1) {
+        if (instance.findAlbumByKey(album.getUniqueKey()).getImage_paths().split(",").length != 1) {
             System.out.println("....[failed]");
             fail("Failed saveAlbum in update album phase two.");
         }
-        if (!instance.findAlbumByKey(album.getUniqueKey()).getImagePaths()[0].equals(newPath)) {
+        if (!instance.findAlbumByKey(album.getUniqueKey()).getImage_paths().split(",")[0].equals(newPath)) {
             System.out.println("....[failed]");
             fail("Failed saveAlbum in update album phase three.");
         }
@@ -127,7 +127,7 @@ public class AlbumServiceTest {
             fail("Failed saveAlbum_FileList in phase one. [fileupload testing]");
         }
        
-        List<String> paths = Arrays.asList(album.getImagePaths());
+        List<String> paths = Arrays.asList(album.getImage_paths().split(","));
        
 
         paths = paths.subList(0, 4);
